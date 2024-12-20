@@ -3,6 +3,7 @@ import {
   CalendarDaysIcon,
   HomeIcon,
   UserIcon,
+  PlusIcon,
 } from "@heroicons/react/24/solid";
 import SignOutButton from "./SignOutButton";
 import { usePathname } from "next/navigation";
@@ -12,6 +13,11 @@ const navLinks = [
     name: "Home",
     href: "/account",
     icon: <HomeIcon className="h-5 w-5 text-primary-600" />,
+  },
+  {
+    name: "Product",
+    href: "/product",
+    icon: <PlusIcon className="h-5 w-5 text-primary-600" />,
   },
   {
     name: "Cart",

@@ -1,26 +1,42 @@
 import { unstable_noStore as noStore } from "next/cache";
-import CabinCard from "@/app/_components/ProductCard";
-import { getCabins } from "../_lib/data-service";
+import ProductCard from "@/app/_components/ProductCard";
+import { getProducts } from "../_lib/data-service";
 
 async function ProductList({ filter }) {
   //noStore();
-  const cabins = await getCabins();
+  const products = await getProducts();
 
-  if (!cabins.length) return null;
+  if (!products.length) return null;
   let displayedProducts;
-  if (filter === "all") displayedProducts = cabins;
-  if (filter === "small")
-    displayedProducts = cabins.filter((cabin) => cabin.maxCapacity <= 3);
-  if (filter === "medium")
-    displayedProducts = cabins.filter(
-      (cabin) => cabin.maxCapacity >= 4 && cabin.maxCapacity <= 7
+  if (filter === "all") displayedProducts = products;
+  if (filter === "allover")
+    displayedProducts = products.filter(
+      (product) => product.category == "allover"
     );
-  if (filter === "large")
-    displayedProducts = cabins.filter((cabin) => cabin.maxCapacity >= 8);
+  if (filter === "necks")
+    displayedProducts = products.filter(
+      (product) => product.category == "necks"
+    );
+  if (filter === "boat")
+    displayedProducts = products.filter(
+      (product) => product.category == "boat"
+    );
+  if (filter === "mirror")
+    displayedProducts = products.filter(
+      (product) => product.category == "mirror"
+    );
+  if (filter === "kids")
+    displayedProducts = products.filter(
+      (product) => product.category == "kids"
+    );
+  if (filter === "kutch")
+    displayedProducts = products.filter(
+      (product) => product.category == "kutch"
+    );
   return (
     <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">
-      {displayedProducts.map((cabin) => (
-        <CabinCard cabin={cabin} key={cabin.id} />
+      {displayedProducts.map((product) => (
+        <ProductCard product={product} key={product.id} />
       ))}
     </div>
   );

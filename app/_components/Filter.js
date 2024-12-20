@@ -5,10 +5,10 @@ function Filter() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const activeFilter = searchParams.get("capacity") ?? "all";
+  const activeFilter = searchParams.get("category") ?? "all";
   function handleFilter(filter) {
     const params = new URLSearchParams(searchParams);
-    params.set("capacity", filter);
+    params.set("category", filter);
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
   return (
@@ -18,29 +18,50 @@ function Filter() {
         handleFilter={handleFilter}
         activeFilter={activeFilter}
       >
-        All cabins
+        All designs
       </Button>
       <Button
-        filter="small"
+        filter="allover"
         handleFilter={handleFilter}
         activeFilter={activeFilter}
       >
-        1&mdash;3 guests
+        Allover Blouses
       </Button>
       <Button
-        filter="medium"
+        filter="necks"
         handleFilter={handleFilter}
         activeFilter={activeFilter}
       >
-        4&mdash;7 guests
+        Blouse Necks
       </Button>
 
       <Button
-        filter="large"
+        filter="boat"
         handleFilter={handleFilter}
         activeFilter={activeFilter}
       >
-        8&mdash;12 guests
+        Boat Necks
+      </Button>
+      <Button
+        filter="mirror"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
+      >
+        Mirror Designs
+      </Button>
+      <Button
+        filter="kids"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
+      >
+        Kids Designs
+      </Button>
+      <Button
+        filter="kutch"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
+      >
+        Kutch Work
       </Button>
     </div>
   );
