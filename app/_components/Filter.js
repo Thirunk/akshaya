@@ -28,7 +28,7 @@ function Filter() {
         Allover Blouses
       </Button>
       <Button
-        filter="necks"
+        filter="neck"
         handleFilter={handleFilter}
         activeFilter={activeFilter}
       >

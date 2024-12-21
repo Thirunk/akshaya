@@ -56,7 +56,7 @@ export const getProducts = async function () {
     .from("products")
     .select("id, name, category, price, discount, description,imageurl")
     .order("name");
-
+  console.log(data);
   if (error) {
     console.error(error);
     throw new Error("Products could not be loaded");

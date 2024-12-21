@@ -11,19 +11,19 @@ async function ProductList({ filter }) {
   if (filter === "all") displayedProducts = products;
   if (filter === "allover")
     displayedProducts = products.filter(
-      (product) => product.category == "allover"
+      (product) => product.category === "allover"
     );
-  if (filter === "necks")
+  if (filter === "neck")
     displayedProducts = products.filter(
-      (product) => product.category == "necks"
+      (product) => product.category === "neck"
     );
   if (filter === "boat")
     displayedProducts = products.filter(
-      (product) => product.category == "boat"
+      (product) => product.category === "boat"
     );
   if (filter === "mirror")
     displayedProducts = products.filter(
-      (product) => product.category == "mirror"
+      (product) => product.category === "mirror"
     );
   if (filter === "kids")
     displayedProducts = products.filter(
@@ -31,7 +31,7 @@ async function ProductList({ filter }) {
     );
   if (filter === "kutch")
     displayedProducts = products.filter(
-      (product) => product.category == "kutch"
+      (product) => product.category === "kutch"
     );
   return (
     <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">

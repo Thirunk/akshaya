@@ -5,27 +5,6 @@ import { useFormStatus } from "react-dom";
 import { createProduct, uploadFile } from "../_lib/actions";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 function CreateProduct() {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
-    const response = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (response.ok) {
-      console.log("File uploaded successfully");
-    } else {
-      console.error("Error uploading file");
-    }
-  };
-
   return (
     <form
       action={createProduct}
@@ -67,6 +46,7 @@ function CreateProduct() {
         <input
           type="file"
           name="image"
+          accept="image/*"
           className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400"
         />
       </div>

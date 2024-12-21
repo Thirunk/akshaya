@@ -7,27 +7,30 @@ import { supabase } from "./supabase";
 import { writeFile } from "fs/promises";
 
 export async function createProduct(formData) {
-  const fl = formData.get("image");
+  console.log(formData);
+  const uploadImage = formData.get("image");
   const name = formData.get("name");
-  const category = parseInt(formData.get("category"));
+  const category = formData.get("category");
   const price = parseFloat(formData.get("price"));
   const discount = parseFloat(formData.get("discount"));
   const description = formData.get("description");
-  //const imageurl = fl.name;
-  //const filePath = `./public/file/${fl.name}`;
-  // const res = await fs.writeFile(filePath, fl);
-  const buffer = Buffer.from(await fl.arrayBuffer());
-  let dt = Date.now();
-  const imageurl = "/uploads/" + dt + fl.name;
-  try {
-    await writeFile(
-      path.join(process.cwd(), "public/uploads/" + dt + fl.name),
-      buffer
-    );
-  } catch (error) {
-    console.log("Error occurred ", error);
-  }
+  //const buffer = Buffer.from(await fl.arrayBuffer());
+  //let dt = Date.now();
 
+  const imageName = `${Math.random()}-${uploadImage.name}`.replaceAll("/", "");
+  const imageurl = `${process.env.SUPABASE_URL}/storage/v1/object/public/cabin-images/${imageName}`;
+  // const imageurl = "/uploads/" + dt + fl.name;
+  // try {
+
+  //   await writeFile(
+  //     path.join(process.cwd(), "public/uploads/" + dt + fl.name),
+  //     buffer
+  //   );
+  // } catch (error) {
+  //   console.log("Error occurred ", error);
+  // }
+
+  //1. create a product
   const uploadData = {
     name,
     category,
@@ -37,19 +40,31 @@ export async function createProduct(formData) {
     imageurl,
   };
 
-  const { data, error } = await supabase.from("products").insert(uploadData);
+  const { data, error } = await supabase
+    .from("products")
+    .insert(uploadData)
+    .select();
 
   if (error) {
     console.error(error);
     throw new Error("product could not be updated");
   }
-  revalidatePath("/product");
-  console.log(formData);
+  //2. upload a image
+  console.log(uploadImage);
+  try {
+    const { error: storageError } = await supabase.storage
+      .from("cabin-images")
+      .upload(imageName, uploadImage);
+  } catch (error) {
+    console.log(error);
+    //3. delete a product if there is an uploading error
+    await supabase.from("products").delete().eq("id", data.id);
+  }
+  revalidatePath("/products");
 }
 export async function updateProfile(formData) {
   const session = await auth();
   if (!session) throw new Error("You must be logged In!");
-  console.log(formData);
   const phone = formData.get("phone");
   const address = formData.get("address");
   const city = formData.get("city");
